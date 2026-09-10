@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#12162a" />
+  <meta name="description" content="SocioTalk English: práctica de inglés por voz con escenarios reales, pronunciación y progreso." />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" href="icons/icon-192.png" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <link rel="stylesheet" href="styles.css" />
+  <title>SocioTalk English</title>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div>
+        <div class="eyebrow">TU ENTRENADOR PERSONAL</div>
+        <h1>SocioTalk <span>English</span></h1>
+      </div>
+      <button id="installBtn" class="icon-btn install-btn" hidden aria-label="Instalar app">＋</button>
+    </header>
+
+    <main>
+      <section id="homeView" class="view active">
+        <div class="hero-card">
+          <div class="hero-copy">
+            <span class="pill">Nivel <b id="levelLabel">A1</b></span>
+            <h2>Habla inglés.<br><span>Sin miedo.</span></h2>
+            <p>Practica situaciones reales con voz, pistas en español y correcciones fáciles de entender.</p>
+            <button id="startDailyBtn" class="primary-btn">Practicar ahora</button>
+          </div>
+          <div class="orb-wrap" aria-hidden="true">
+            <div class="orb"><span>ST</span></div>
+          </div>
+        </div>
+
+        <div class="stats-grid">
+          <article><span>🔥</span><strong id="streakStat">1</strong><small>Racha</small></article>
+          <article><span>🎯</span><strong id="sessionsStat">0</strong><small>Sesiones</small></article>
+          <article><span>⭐</span><strong id="xpStat">0</strong><small>XP</small></article>
+        </div>
+
+        <div class="section-head">
+          <div><small>PRÁCTICA REAL</small><h3>Elige una situación</h3></div>
+        </div>
+        <div id="scenarioGrid" class="scenario-grid"></div>
+
+        <section class="daily-card">
+          <div>
+            <small>META DIARIA</small>
+            <h3>10 minutos hablando</h3>
+            <p>Lo importante es practicar un poco todos los días.</p>
+          </div>
+          <div class="progress-ring" id="progressRing"><span id="progressText">0%</span></div>
+        </section>
+      </section>
+
+      <section id="practiceView" class="view">
+        <div class="practice-top">
+          <button id="backBtn" class="icon-btn" aria-label="Regresar">←</button>
+          <div><small id="practiceCategory">VIDA DIARIA</small><h2 id="practiceTitle">Conversación</h2></div>
+          <button id="speakPromptBtn" class="icon-btn" aria-label="Escuchar tutor">🔊</button>
+        </div>
+
+        <div class="coach-card">
+          <div class="coach-avatar">ST</div>
+          <div>
+            <small>SOCIOTALK COACH</small>
+            <p id="coachPrompt">Hello! How are you today?</p>
+            <button id="hintBtn" class="text-btn">Ver ayuda en español</button>
+            <p id="hintText" class="hint" hidden></p>
+          </div>
+        </div>
+
+        <div class="conversation-card">
+          <div class="status-line"><span class="dot"></span><span id="micStatus">Toca el micrófono y responde en inglés</span></div>
+          <div id="transcriptBox" class="transcript empty">Tu respuesta aparecerá aquí…</div>
+          <button id="micBtn" class="mic-btn" aria-label="Hablar"><span>🎙️</span></button>
+          <small class="privacy-note">El reconocimiento de voz depende del navegador del teléfono.</small>
+        </div>
+
+        <div id="feedbackCard" class="feedback-card" hidden>
+          <div class="feedback-head"><span>✓</span><div><small>CORRECCIÓN</small><h3>Así suena más natural</h3></div></div>
+          <div class="feedback-block">
+            <label>Lo que dijiste</label>
+            <p id="saidText"></p>
+          </div>
+          <div class="feedback-block good">
+            <label>Una mejor forma</label>
+            <p id="betterText"></p>
+            <button id="speakBetterBtn" class="mini-btn">🔊 Escuchar</button>
+          </div>
+          <p id="feedbackNote" class="feedback-note"></p>
+          <button id="nextPromptBtn" class="primary-btn full">Continuar conversación</button>
+        </div>
+
+        <div id="typingFallback" class="typing-fallback">
+          <label for="typedAnswer">También puedes escribir tu respuesta:</label>
+          <div class="typing-row"><input id="typedAnswer" autocomplete="off" placeholder="Type your answer in English…"/><button id="submitTypedBtn">Enviar</button></div>
+        </div>
+      </section>
+
+      <section id="progressView" class="view">
+        <div class="page-title"><small>TU AVANCE</small><h2>Progreso</h2><p>Cada conversación cuenta.</p></div>
+        <div class="progress-big-card">
+          <div class="level-badge" id="progressLevel">A1</div>
+          <div><small>NIVEL ACTUAL</small><h3>English Starter</h3><p id="progressSummary">Completa tu primera práctica para empezar.</p></div>
+        </div>
+        <div class="metric-list">
+          <div><span>Sesiones completadas</span><strong id="progressSessions">0</strong></div>
+          <div><span>Respuestas practicadas</span><strong id="progressAnswers">0</strong></div>
+          <div><span>Experiencia</span><strong><span id="progressXp">0</span> XP</strong></div>
+        </div>
+        <button id="resetProgressBtn" class="danger-link">Reiniciar progreso de demostración</button>
+      </section>
+    </main>
+
+    <nav class="bottom-nav">
+      <button class="nav-btn active" data-view="homeView"><span>⌂</span><small>Inicio</small></button>
+      <button class="nav-btn" data-view="practiceView"><span>◉</span><small>Hablar</small></button>
+      <button class="nav-btn" data-view="progressView"><span>▥</span><small>Progreso</small></button>
+    </nav>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
