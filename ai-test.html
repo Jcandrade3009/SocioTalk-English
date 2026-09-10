@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b0e1a">
+<title>SocioTalk AI Test</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#0b0e1a;color:#f7f8ff;font-family:system-ui,-apple-system,Segoe UI,sans-serif;min-height:100vh}main{width:min(100%,520px);margin:auto;padding:24px 18px 60px}.brand{font-weight:900;font-size:1.15rem}.brand span{color:#6ee7b7}.tag{margin-top:6px;color:#9ca7c7;font-size:.8rem}.card{margin-top:18px;border:1px solid rgba(255,255,255,.09);background:#151a2f;border-radius:26px;padding:20px}.coach{display:flex;gap:14px}.avatar{width:54px;height:54px;border-radius:18px;background:linear-gradient(135deg,#6ee7b7,#60a5fa);display:grid;place-items:center;color:#09202a;font-weight:1000;flex:none}.label{font-size:.69rem;letter-spacing:.14em;color:#6ee7b7;font-weight:900}.prompt{font-size:1.25rem;line-height:1.45;margin:8px 0}.hint{color:#c084fc;font-size:.9rem}.micarea{text-align:center}.status{color:#9ca7c7;font-size:.8rem;margin-bottom:14px}.transcript{min-height:62px;display:grid;place-items:center;font-size:1.1rem}.mic{width:82px;height:82px;border:0;border-radius:50%;font-size:2rem;background:linear-gradient(135deg,#6ee7b7,#60a5fa);box-shadow:0 0 0 10px rgba(110,231,183,.08)}.row{display:flex;gap:8px;margin-top:18px}.row input{flex:1;min-width:0;background:#0b1020;color:white;border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:13px}.row button,.continue{border:0;border-radius:14px;background:#6ee7b7;color:#07141a;font-weight:900;padding:13px 16px}.result{display:none}.result.show{display:block}.box{background:rgba(255,255,255,.045);border-radius:16px;padding:14px;margin-top:12px}.box b{display:block;color:#9ca7c7;font-size:.68rem;letter-spacing:.12em;margin-bottom:6px}.better{border:1px solid rgba(110,231,183,.2);background:rgba(110,231,183,.07)}.score{font-weight:900;color:#6ee7b7}.error{color:#fda4af;white-space:pre-wrap}.continue{width:100%;margin-top:14px}.busy{opacity:.55;pointer-events:none}
+</style>
+</head>
+<body>
+<main>
+<div class="brand">SocioTalk <span>English</span> · AI Test</div>
+<div class="tag">Prueba del tutor real conectado a Railway + OpenAI</div>
+
+<section class="card coach">
+<div class="avatar">ST</div>
+<div><div class="label">SOCIOTALK COACH</div><div id="prompt" class="prompt">Hello! How are you today, and what have you been doing?</div><div id="hint" class="hint">Ayuda: ¿Cómo estás hoy y qué has estado haciendo?</div></div>
+</section>
+
+<section id="inputCard" class="card micarea">
+<div id="status" class="status">Responde en inglés con el micrófono o escribiendo.</div>
+<div id="transcript" class="transcript">Tu respuesta aparecerá aquí…</div>
+<button id="mic" class="mic">🎙️</button>
+<div class="row"><input id="typed" placeholder="Type your answer in English…"><button id="send">Enviar</button></div>
+</section>
+
+<section id="result" class="card result">
+<div class="label">CORRECCIÓN CON IA</div>
+<div class="box"><b>LO QUE DIJISTE</b><div id="said"></div></div>
+<div class="box better"><b>CORREGIDO</b><div id="corrected"></div></div>
+<div class="box better"><b>FORMA NATURAL</b><div id="natural"></div></div>
+<div class="box"><b>EXPLICACIÓN</b><div id="explanation"></div></div>
+<div class="box"><b>PUNTUACIÓN</b><div id="score" class="score"></div></div>
+<div id="error" class="error"></div>
+<button id="continue" class="continue">Continuar conversación</button>
+</section>
+</main>
+<script>
+const API='https://sociotalk-api-production.up.railway.app';
+const $=id=>document.getElementById(id);
+let recognition=null, history=[], nextReply='', nextHint='';
+function speak(t){if(!('speechSynthesis'in window))return;speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.lang='en-US';u.rate=.86;speechSynthesis.speak(u)}
+async function sendText(text){
+  text=(text||'').trim(); if(!text)return;
+  $('transcript').textContent=text;
+  $('status').textContent='SocioTalk está analizando tu inglés…';
+  $('inputCard').classList.add('busy');
+  $('result').classList.remove('show');
+  try{
+    const r=await fetch(API+'/coach',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({userText:text,scenario:'Vida diaria',level:'A1',history})
+    });
+    const data=await r.json();
+    if(!r.ok||!data.ok)throw new Error(data.error||('HTTP '+r.status));
+    $('said').textContent=text;
+    $('corrected').textContent=data.corrected||text;
+    $('natural').textContent=data.natural||data.corrected||text;
+    $('explanation').textContent=data.explanation_es||'Sin observaciones.';
+    $('score').textContent=(data.score??'—')+'/100';
+    $('error').textContent='';
+    nextReply=data.reply||'Can you tell me more?';
+    nextHint=data.hint_es||'';
+    history.push({role:'user',text},{role:'assistant',text:nextReply});
+    history=history.slice(-8);
+    $('result').classList.add('show');
+    $('status').textContent='Análisis terminado.';
+  }catch(e){
+    $('result').classList.add('show');
+    $('said').textContent=text;
+    $('corrected').textContent='';
+    $('natural').textContent='';
+    $('explanation').textContent='';
+    $('score').textContent='';
+    $('error').textContent='Error del tutor: '+e.message;
+    $('status').textContent='Hubo un problema al consultar la IA.';
+  }finally{
+    $('inputCard').classList.remove('busy');
+  }
+}
+const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+if(SR){
+  recognition=new SR();
+  recognition.lang='en-US';
+  recognition.interimResults=true;
+  recognition.continuous=false;
+  recognition.onstart=()=>{$('status').textContent='Escuchando… habla en inglés';};
+  recognition.onresult=e=>{
+    let final='',interim='';
+    for(let i=e.resultIndex;i<e.results.length;i++){
+      let t=e.results[i][0].transcript;
+      e.results[i].isFinal?final+=t:interim+=t;
+    }
+    $('transcript').textContent=final||interim;
+    if(final)sendText(final);
+  };
+  recognition.onerror=()=>{$('status').textContent='No pude escuchar bien. Intenta otra vez.'};
+  recognition.onend=()=>{
+    if($('status').textContent.startsWith('Escuchando'))
+      $('status').textContent='Toca el micrófono para intentar otra vez.';
+  };
+}else{
+  $('mic').disabled=true;
+  $('status').textContent='Este navegador no ofrece reconocimiento de voz. Escribe tu respuesta.';
+}
+$('mic').onclick=()=>{if(recognition){try{recognition.start()}catch(e){recognition.stop()}}};
+$('send').onclick=()=>sendText($('typed').value);
+$('typed').addEventListener('keydown',e=>{if(e.key==='Enter')sendText(e.target.value)});
+$('continue').onclick=()=>{
+  if(!nextReply)return;
+  $('prompt').textContent=nextReply;
+  $('hint').textContent=nextHint?'Ayuda: '+nextHint:'';
+  $('typed').value='';
+  $('transcript').textContent='Tu respuesta aparecerá aquí…';
+  $('result').classList.remove('show');
+  $('status').textContent='Responde la nueva pregunta en inglés.';
+  speak(nextReply);
+};
+setTimeout(()=>speak($('prompt').textContent),350);
+</script>
+</body>
+</html>
