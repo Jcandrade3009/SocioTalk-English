@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#12162a">
+<title>SocioTalk English</title>
+<style>
+:root{--bg:#0b0e1a;--panel:#151a2f;--text:#f7f8ff;--muted:#9ca7c7;--brand:#6ee7b7;--brand2:#60a5fa;--line:rgba(255,255,255,.08)}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 80% -10%,#21305f 0,transparent 34%),var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,sans-serif;min-height:100vh}
+button,input{font:inherit}.app{width:min(100%,520px);margin:auto;padding:24px 18px 92px}.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}.eyebrow,.label{font-size:.68rem;letter-spacing:.14em;color:var(--brand);font-weight:900}.top h1{font-size:1.1rem;margin:3px 0}.top h1 span{color:var(--brand)}
+.view{display:none}.view.active{display:block}.hero{padding:24px;border-radius:30px;background:linear-gradient(145deg,#1c2552,#19203b 58%,#142740);border:1px solid var(--line)}.pill{display:inline-block;padding:7px 11px;border-radius:999px;background:rgba(110,231,183,.12);color:#c9ffe9;font-size:.75rem}.hero h2{font-size:2.35rem;line-height:.98;margin:18px 0 12px}.hero h2 span{color:var(--brand)}.hero p{color:#c5cce0;line-height:1.5}.primary{border:0;border-radius:16px;padding:14px 18px;background:linear-gradient(120deg,var(--brand),#8be8ff);color:#07141a;font-weight:900}.ai{display:inline-block;margin-top:12px;font-size:.65rem;color:#c9ffe9;background:rgba(110,231,183,.1);border:1px solid rgba(110,231,183,.13);padding:6px 9px;border-radius:999px;font-weight:800}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0 26px}.stats div{padding:14px 10px;text-align:center;background:rgba(255,255,255,.045);border:1px solid var(--line);border-radius:19px}.stats small{display:block;color:var(--muted)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.scenario{padding:17px;min-height:140px;text-align:left;color:var(--text);background:rgba(255,255,255,.045);border:1px solid var(--line);border-radius:23px}.scenario .ico{font-size:1.5rem;display:block;margin-bottom:20px}.scenario b,.scenario small{display:block}.scenario small{color:var(--muted);margin-top:5px}
+.head{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center}.icon{width:42px;height:42px;border-radius:14px;border:1px solid var(--line);background:rgba(255,255,255,.055);color:var(--text)}.card{margin-top:14px;padding:18px;border-radius:24px;border:1px solid var(--line);background:rgba(255,255,255,.045)}.coach{display:flex;gap:13px}.avatar{width:50px;height:50px;border-radius:17px;background:linear-gradient(135deg,var(--brand),#c4fff0);color:#0f2e28;display:grid;place-items:center;font-weight:1000;flex:none}.coach p{font-size:1.08rem;line-height:1.45;margin:6px 0}.hintbtn{border:0;background:none;color:var(--brand2);font-weight:800;padding:5px 0}.hint{color:#e9c7ff;font-size:.86rem}
+.listen{text-align:center}.status{font-size:.78rem;color:var(--muted)}.transcript{min-height:70px;display:grid;place-items:center;font-size:1.08rem}.mic{width:80px;height:80px;border:0;border-radius:50%;font-size:2rem;background:linear-gradient(145deg,#7df7c8,#5aa5ff);box-shadow:0 0 0 9px rgba(110,231,183,.08)}.mic.listening{animation:pulse 1.2s infinite}@keyframes pulse{50%{box-shadow:0 0 0 17px rgba(110,231,183,.03)}}.busy{opacity:.55;pointer-events:none}
+.row{display:flex;gap:8px}.row input{flex:1;min-width:0;border:1px solid var(--line);border-radius:13px;background:#0c1122;color:#fff;padding:12px}.row button{border:0;border-radius:13px;background:#283253;color:#fff;padding:0 14px;font-weight:800}
+.feedback{display:none}.feedback.show{display:block}.box{margin-top:12px;padding:13px 14px;border-radius:16px;background:rgba(255,255,255,.04)}.box.good{background:rgba(110,231,183,.07);border:1px solid rgba(110,231,183,.12)}.box b{display:block;color:var(--muted);font-size:.68rem;letter-spacing:.12em}.score{color:var(--brand);font-size:1.15rem;font-weight:900}.error{color:#fda4af;margin-top:12px}.chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}.chip{font-size:.72rem;padding:6px 8px;border-radius:999px;background:#202943}.full{width:100%;margin-top:14px}
+.progress{padding:20px}.progress h2{font-size:2rem}.metric{display:flex;justify-content:space-between;padding:16px 0;border-bottom:1px solid var(--line)}
+.nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(100%,520px);display:grid;grid-template-columns:repeat(3,1fr);background:rgba(9,12,23,.94);border-top:1px solid var(--line);padding:10px 18px 14px}.nav button{border:0;background:none;color:#707a98;font-weight:800}.nav button.active{color:var(--brand)}
+@media(max-width:380px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="top"><div><div class="eyebrow">TU ENTRENADOR PERSONAL</div><h1>SocioTalk <span>English</span></h1></div></header>
+
+<section id="home" class="view active">
+<div class="hero"><span class="pill">Nivel <b id="level">A1</b></span><h2>Habla inglés.<br><span>Sin miedo.</span></h2><p>Practica situaciones reales con voz, ayuda en español y correcciones hechas por IA.</p><button id="start" class="primary">Practicar ahora</button><div class="ai">● IA REAL CONECTADA</div></div>
+<div class="stats"><div>🔥 <strong id="streak">1</strong><small>Racha</small></div><div>🎯 <strong id="sessions">0</strong><small>Sesiones</small></div><div>⭐ <strong id="xp">0</strong><small>XP</small></div></div>
+<div class="eyebrow">PRÁCTICA REAL</div><h2>Elige una situación</h2><div id="grid" class="grid"></div>
+</section>
+
+<section id="practice" class="view">
+<div class="head"><button id="back" class="icon">←</button><div><div id="cat" class="eyebrow">VIDA DIARIA</div><h2 id="title">Vida diaria</h2></div><button id="speakPrompt" class="icon">🔊</button></div>
+<div class="card coach"><div class="avatar">ST</div><div><div class="label">SOCIOTALK COACH</div><p id="prompt">Hello! How are you today?</p><button id="hintBtn" class="hintbtn">Ver ayuda en español</button><div id="hint" class="hint" hidden></div><div class="ai">● TUTOR CON IA</div></div></div>
+<div id="listenCard" class="card listen"><div id="status" class="status">Toca el micrófono y responde en inglés</div><div id="transcript" class="transcript">Tu respuesta aparecerá aquí…</div><button id="mic" class="mic">🎙️</button></div>
+<div id="feedback" class="card feedback"><div class="label">CORRECCIÓN CON IA</div><div class="box"><b>LO QUE DIJISTE</b><div id="said"></div></div><div class="box good"><b>CORREGIDO</b><div id="corrected"></div></div><div class="box good"><b>FORMA NATURAL</b><div id="natural"></div><button id="speakBetter" class="hintbtn">🔊 Escuchar</button></div><div class="box"><b>EXPLICACIÓN</b><div id="explain"></div></div><div class="box"><b>PUNTUACIÓN</b><div id="score" class="score"></div></div><div id="vocabBox" class="box" hidden><b>VOCABULARIO ÚTIL</b><div id="vocab" class="chips"></div></div><div id="error" class="error"></div><button id="continue" class="primary full">Continuar conversación</button></div>
+<div id="typeCard" class="card"><div class="row"><input id="typed" placeholder="Type your answer in English…"><button id="send">Enviar</button></div></div>
+</section>
+
+<section id="progress" class="view progress"><div class="eyebrow">TU AVANCE</div><h2>Progreso</h2><div class="card"><div class="metric"><span>Nivel</span><strong id="pLevel">A1</strong></div><div class="metric"><span>Sesiones</span><strong id="pSessions">0</strong></div><div class="metric"><span>Respuestas</span><strong id="pAnswers">0</strong></div><div class="metric"><span>XP</span><strong id="pXp">0</strong></div></div></section>
+</div>
+
+<nav class="nav"><button class="active" data-view="home">⌂<br><small>Inicio</small></button><button data-view="practice">◉<br><small>Hablar</small></button><button data-view="progress">▥<br><small>Progreso</small></button></nav>
+
+<script>
+const API='https://sociotalk-api-production.up.railway.app';
+const scenarios=[
+{id:'daily',icon:'☀️',title:'Vida diaria',cat:'VIDA DIARIA',prompt:'Hello! How are you today, and what have you been doing?',hint:'¿Cómo estás hoy y qué has estado haciendo?'},
+{id:'customer',icon:'🚗',title:'Con un cliente',cat:'TRABAJO',prompt:'Hi! I’m interested in window tint. What do you recommend?',hint:'Me interesa el polarizado. ¿Qué me recomiendas?'},
+{id:'restaurant',icon:'🍽️',title:'Restaurante',cat:'VIAJE',prompt:'Good evening! Are you ready to order?',hint:'Buenas noches. ¿Está listo para ordenar?'},
+{id:'phone',icon:'📞',title:'Llamada',cat:'TRABAJO',prompt:'Good morning. How can I help you today?',hint:'Buenos días. ¿Cómo puedo ayudarle hoy?'},
+{id:'travel',icon:'✈️',title:'Aeropuerto',cat:'VIAJE',prompt:'May I see your passport and boarding pass, please?',hint:'¿Puedo ver su pasaporte y pase de abordar?'},
+{id:'smalltalk',icon:'💬',title:'Small talk',cat:'CONVERSACIÓN',prompt:'It’s a beautiful day, isn’t it? Do you live around here?',hint:'Es un día bonito. ¿Vives por aquí?'}
+];
+const $=id=>document.getElementById(id);
+const state=JSON.parse(localStorage.getItem('sociotalkProgress')||'{"sessions":0,"answers":0,"xp":0,"streak":1}');
+let active=scenarios[0],history=[],reply='',replyHint='',recognition=null;
+
+function lvl(){return state.xp>=700?'B1':state.xp>=300?'A2':'A1'}
+function save(){localStorage.setItem('sociotalkProgress',JSON.stringify(state));render()}
+function render(){const l=lvl();$('level').textContent=l;$('pLevel').textContent=l;$('streak').textContent=state.streak;$('sessions').textContent=state.sessions;$('xp').textContent=state.xp;$('pSessions').textContent=state.sessions;$('pAnswers').textContent=state.answers;$('pXp').textContent=state.xp}
+function show(id){document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active',v.id===id));document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.view===id));scrollTo(0,0)}
+function speak(t){if(!('speechSynthesis'in window)||!t)return;speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.lang='en-US';u.rate=.86;speechSynthesis.speak(u)}
+function startScenario(s){active=s;history=[];reply='';replyHint='';$('cat').textContent=s.cat;$('title').textContent=s.title;$('prompt').textContent=s.prompt;$('hint').textContent=s.hint;$('hint').hidden=true;$('feedback').classList.remove('show');$('transcript').textContent='Tu respuesta aparecerá aquí…';$('typed').value='';show('practice');setTimeout(()=>speak(s.prompt),250)}
+async function analyze(text){
+ text=(text||'').trim();if(!text)return;
+ $('transcript').textContent=text;$('status').textContent='SocioTalk está analizando tu inglés…';$('listenCard').classList.add('busy');$('typeCard').classList.add('busy');$('feedback').classList.remove('show');
+ try{
+  const r=await fetch(API+'/coach',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({userText:text,scenario:active.title,level:lvl(),history})});
+  const d=await r.json();if(!r.ok||!d.ok)throw new Error(d.error||('HTTP '+r.status));
+  $('said').textContent=text;$('corrected').textContent=d.corrected||text;$('natural').textContent=d.natural||d.corrected||text;$('explain').textContent=d.explanation_es||'Tu respuesta se entiende bien.';$('score').textContent=(Number.isFinite(d.score)?d.score:'—')+'/100';
+  const vocab=Array.isArray(d.vocabulary)?d.vocabulary.slice(0,3):[];$('vocab').innerHTML=vocab.map(v=>'<span class="chip">'+String(v).replace(/[<>]/g,'')+'</span>').join('');$('vocabBox').hidden=!vocab.length;$('error').textContent='';
+  reply=d.reply||'Can you tell me more?';replyHint=d.hint_es||'';history.push({role:'user',text},{role:'assistant',text:reply});history=history.slice(-8);
+  state.answers++;state.xp+=15;save();$('feedback').classList.add('show');$('status').textContent='Corrección lista.';
+ }catch(e){$('said').textContent=text;$('corrected').textContent='';$('natural').textContent='';$('explain').textContent='';$('score').textContent='';$('vocabBox').hidden=true;$('error').textContent='Error del tutor: '+e.message;$('feedback').classList.add('show');$('status').textContent='Hubo un problema al consultar la IA.'}
+ finally{$('listenCard').classList.remove('busy');$('typeCard').classList.remove('busy')}
+}
+const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+if(SR){recognition=new SR();recognition.lang='en-US';recognition.interimResults=true;recognition.onstart=()=>{$('mic').classList.add('listening');$('status').textContent='Escuchando… habla en inglés'};recognition.onresult=e=>{let f='',i='';for(let x=e.resultIndex;x<e.results.length;x++){let t=e.results[x][0].transcript;e.results[x].isFinal?f+=t:i+=t}$('transcript').textContent=f||i;if(f)analyze(f)};recognition.onerror=()=>{$('status').textContent='No pude escuchar bien. Intenta otra vez.'};recognition.onend=()=>{$('mic').classList.remove('listening')}}else{$('mic').disabled=true;$('status').textContent='Este navegador no ofrece reconocimiento de voz. Escribe tu respuesta.'}
+
+$('grid').innerHTML=scenarios.map((s,i)=>`<button class="scenario" data-i="${i}"><span class="ico">${s.icon}</span><b>${s.title}</b><small>${s.cat}</small></button>`).join('');
+document.querySelectorAll('.scenario').forEach(b=>b.onclick=()=>startScenario(scenarios[+b.dataset.i]));
+$('start').onclick=()=>startScenario(scenarios[0]);$('back').onclick=()=>show('home');$('hintBtn').onclick=()=>{$('hint').hidden=!$('hint').hidden};$('speakPrompt').onclick=()=>speak($('prompt').textContent);$('speakBetter').onclick=()=>speak($('natural').textContent);$('mic').onclick=()=>{if(recognition){try{recognition.start()}catch(e){recognition.stop()}}};$('send').onclick=()=>analyze($('typed').value);$('typed').addEventListener('keydown',e=>{if(e.key==='Enter')analyze(e.target.value)});
+$('continue').onclick=()=>{if(!reply)return;$('prompt').textContent=reply;$('hint').textContent=replyHint;$('hint').hidden=true;$('feedback').classList.remove('show');$('transcript').textContent='Tu respuesta aparecerá aquí…';$('typed').value='';$('status').textContent='Responde la nueva pregunta en inglés.';speak(reply);reply='';replyHint='';if(state.answers%4===0){state.sessions++;state.xp+=25;save()}};
+document.querySelectorAll('.nav button').forEach(b=>b.onclick=()=>{if(b.dataset.view==='practice')startScenario(active);else show(b.dataset.view)});
+render();
+</script>
+</body>
+</html>
